@@ -14,7 +14,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-{{- if .Values.oap.istio.adapter.enabled }}
+  {{- if .Values.oap.istio.adapter.enabled }}
 apiVersion: "config.istio.io/v1alpha2"
 kind: handler
 metadata:
@@ -23,4 +23,4 @@ spec:
   adapter: skywalking-adapter
   connection:
     address: {{ template "skywalking.oap.fullname" . }}"."{{ .Release.Namespace }}".svc.cluster.local:11800"
-{{- end }}
+  {{- end }}

@@ -26,10 +26,8 @@ import org.apache.skywalking.apm.network.language.agent.v2.SpanObjectV2;
 
 /**
  * The <code>StackBasedTracingSpan</code> represents a span with an inside stack construction.
- *
+ * <p>
  * This kind of span can start and finish multi times in a stack-like invoke line.
- *
- * @author wusheng
  */
 public abstract class StackBasedTracingSpan extends AbstractTracingSpan {
     protected int stackDepth;
@@ -62,13 +60,15 @@ public abstract class StackBasedTracingSpan extends AbstractTracingSpan {
         this.peerId = DictionaryUtil.nullValue();
     }
 
-    protected StackBasedTracingSpan(int spanId, int parentSpanId, String operationName, String peer, TracingContext owner) {
+    protected StackBasedTracingSpan(int spanId, int parentSpanId, String operationName, String peer,
+        TracingContext owner) {
         super(spanId, parentSpanId, operationName, owner);
         this.peer = peer;
         this.peerId = DictionaryUtil.nullValue();
     }
 
-    protected StackBasedTracingSpan(int spanId, int parentSpanId, String operationName, int peerId, TracingContext owner) {
+    protected StackBasedTracingSpan(int spanId, int parentSpanId, String operationName, int peerId,
+        TracingContext owner) {
         super(spanId, parentSpanId, operationName, owner);
         this.peer = null;
         this.peerId = peerId;
@@ -95,20 +95,19 @@ public abstract class StackBasedTracingSpan extends AbstractTracingSpan {
              */
             if (this.isEntry()) {
                 if (this.operationId == DictionaryUtil.nullValue()) {
-                    this.operationId = (Integer)DictionaryManager.findEndpointSection()
-                        .findOrPrepare4Register(owner.getServiceId(), operationName)
-                        .doInCondition(
-                            new PossibleFound.FoundAndObtain() {
-                                @Override public Object doProcess(int value) {
-                                    return value;
-                                }
-                            },
-                            new PossibleFound.NotFoundAndObtain() {
-                                @Override public Object doProcess() {
-                                    return DictionaryUtil.nullValue();
-                                }
-                            }
-                        );
+                    this.operationId = (Integer) DictionaryManager.findEndpointSection()
+                                                                  .findOrPrepare4Register(owner.getServiceId(), operationName)
+                                                                  .doInCondition(new PossibleFound.FoundAndObtain() {
+                                                                      @Override
+                                                                      public Object doProcess(int value) {
+                                                                          return value;
+                                                                      }
+                                                                  }, new PossibleFound.NotFoundAndObtain() {
+                                                                      @Override
+                                                                      public Object doProcess() {
+                                                                          return DictionaryUtil.nullValue();
+                                                                      }
+                                                                  });
                 }
             }
             return super.finish(owner);
@@ -117,20 +116,19 @@ public abstract class StackBasedTracingSpan extends AbstractTracingSpan {
         }
     }
 
-    @Override public AbstractSpan setPeer(final String remotePeer) {
-        DictionaryManager.findNetworkAddressSection().find(remotePeer).doInCondition(
-            new PossibleFound.Found() {
-                @Override
-                public void doProcess(int remotePeerId) {
-                    peerId = remotePeerId;
-                }
-            }, new PossibleFound.NotFound() {
-                @Override
-                public void doProcess() {
-                    peer = remotePeer;
-                }
+    @Override
+    public AbstractSpan setPeer(final String remotePeer) {
+        DictionaryManager.findNetworkAddressSection().find(remotePeer).doInCondition(new PossibleFound.Found() {
+            @Override
+            public void doProcess(int remotePeerId) {
+                peerId = remotePeerId;
             }
-        );
+        }, new PossibleFound.NotFound() {
+            @Override
+            public void doProcess() {
+                peer = remotePeer;
+            }
+        });
         return this;
     }
 }

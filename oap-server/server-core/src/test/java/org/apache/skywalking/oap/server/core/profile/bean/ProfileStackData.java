@@ -15,14 +15,14 @@
  * limitations under the License.
  *
  */
+
 package org.apache.skywalking.oap.server.core.profile.bean;
 
 import com.google.common.base.Splitter;
-import lombok.Data;
-import org.apache.skywalking.oap.server.core.profile.analyze.ProfileStack;
-
 import java.util.ArrayList;
 import java.util.List;
+import lombok.Data;
+import org.apache.skywalking.oap.server.core.profile.analyze.ProfileStack;
 
 @Data
 public class ProfileStackData {

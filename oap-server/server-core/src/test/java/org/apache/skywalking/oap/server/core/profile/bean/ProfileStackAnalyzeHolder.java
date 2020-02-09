@@ -15,11 +15,11 @@
  * limitations under the License.
  *
  */
+
 package org.apache.skywalking.oap.server.core.profile.bean;
 
-import lombok.Data;
-
 import java.util.List;
+import lombok.Data;
 
 @Data
 public class ProfileStackAnalyzeHolder {

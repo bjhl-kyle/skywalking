@@ -31,7 +31,6 @@ import org.apache.skywalking.apm.util.StringUtil;
  * {@link ContextCarrier} is a data carrier of {@link TracingContext}. It holds the snapshot (current state) of {@link
  * TracingContext}.
  * <p>
- * Created by wusheng on 2017/2/17.
  */
 public class ContextCarrier implements Serializable {
     private ID traceSegmentId;
@@ -83,16 +82,11 @@ public class ContextCarrier implements Serializable {
      */
     String serialize(HeaderVersion version) {
         if (this.isValid(version)) {
-            return StringUtil.join('-',
-                "1",
-                Base64.encode(this.getPrimaryDistributedTraceId().encode()),
-                Base64.encode(this.getTraceSegmentId().encode()),
-                this.getSpanId() + "",
-                this.getParentServiceInstanceId() + "",
-                this.getEntryServiceInstanceId() + "",
-                Base64.encode(this.getPeerHost()),
-                Base64.encode(this.getEntryEndpointName()),
-                Base64.encode(this.getParentEndpointName()));
+            return StringUtil.join('-', "1", Base64.encode(this.getPrimaryDistributedTraceId()
+                                                               .encode()), Base64.encode(this.getTraceSegmentId()
+                                                                                             .encode()), this.getSpanId() + "", this
+                .getParentServiceInstanceId() + "", this.getEntryServiceInstanceId() + "", Base64.encode(this.getPeerHost()), Base64
+                .encode(this.getEntryEndpointName()), Base64.encode(this.getParentEndpointName()));
         }
         return "";
     }
@@ -142,13 +136,8 @@ public class ContextCarrier implements Serializable {
      */
     boolean isValid(HeaderVersion version) {
         if (HeaderVersion.v2 == version) {
-            return traceSegmentId != null
-                && traceSegmentId.isValid()
-                && getSpanId() > -1
-                && parentServiceInstanceId != DictionaryUtil.nullValue()
-                && entryServiceInstanceId != DictionaryUtil.nullValue()
-                && !StringUtil.isEmpty(peerHost)
-                && primaryDistributedTraceId != null;
+            return traceSegmentId != null && traceSegmentId.isValid() && getSpanId() > -1 && parentServiceInstanceId != DictionaryUtil
+                .nullValue() && entryServiceInstanceId != DictionaryUtil.nullValue() && !StringUtil.isEmpty(peerHost) && primaryDistributedTraceId != null;
         }
         return false;
     }

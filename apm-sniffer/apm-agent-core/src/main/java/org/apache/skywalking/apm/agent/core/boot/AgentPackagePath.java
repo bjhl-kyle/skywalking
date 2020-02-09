@@ -16,7 +16,6 @@
  *
  */
 
-
 package org.apache.skywalking.apm.agent.core.boot;
 
 import java.net.URISyntaxException;
@@ -27,9 +26,6 @@ import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-/**
- * @author wusheng
- */
 public class AgentPackagePath {
     private static final ILog logger = LogManager.getLogger(AgentPackagePath.class);
 

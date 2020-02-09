@@ -38,7 +38,7 @@ service Register {
     rpc doNetworkAddressRegister (NetAddresses) returns (NetAddressMapping) {
     }
 
-    rpc doServiceAndNetworkAddressMappingRegister (ServiceAndNetworkAddressMappings) returns(Commands) {
+    rpc doServiceAndNetworkAddressMappingRegister (ServiceAndNetworkAddressMappings) returns (Commands) {
     }
 }
 

@@ -21,53 +21,53 @@ registryItems:
   operationNames:
     - gson-scenario: [/gson-scenario/case/gson-scenario]
 segmentItems:
-- applicationCode: gson-scenario
-  segmentSize: ge 2
-  segments:
-  - segmentId: nq 0
-    spans:
-    - operationName: Gson/ToJson
-      operationId: 0
-      parentSpanId: 0
-      spanId: 1
-      spanLayer: Unknown
-      tags:
-        - {key: 'length', value: 'not null'}
-      startTime: nq 0
-      endTime: nq 0
-      componentId: 55
-      componentName: ''
-      isError: false
-      spanType: Local
-      peer: ' '
-      peerId: 0
-    - operationName: Gson/FromJson
-      operationId: 0
-      parentSpanId: 0
-      spanId: 2
-      spanLayer: Unknown
-      tags:
-        - {key: 'length', value: 'not null'}
-      startTime: nq 0
-      endTime: nq 0
-      componentId: 55
-      componentName: ''
-      isError: false
-      spanType: Local
-      peer: ''
-      peerId: 0
-    - operationName: /gson-scenario/case/gson-scenario
-      operationId: 0
-      spanId: 0
-      spanLayer: Http
-      startTime: nq 0
-      endTime: nq 0
-      componentId: 1
-      componentName: ''
-      isError: false
-      spanType: Entry
-      peer: ''
-      peerId: 0
-      tags:
-        - {key: url, value: 'http://localhost:8080/gson-scenario/case/gson-scenario'}
-        - {key: http.method, value: GET}
+  - applicationCode: gson-scenario
+    segmentSize: ge 2
+    segments:
+      - segmentId: nq 0
+        spans:
+          - operationName: Gson/ToJson
+            operationId: 0
+            parentSpanId: 0
+            spanId: 1
+            spanLayer: Unknown
+            tags:
+              - {key: 'length', value: 'not null'}
+            startTime: nq 0
+            endTime: nq 0
+            componentId: 55
+            componentName: ''
+            isError: false
+            spanType: Local
+            peer: ' '
+            peerId: 0
+          - operationName: Gson/FromJson
+            operationId: 0
+            parentSpanId: 0
+            spanId: 2
+            spanLayer: Unknown
+            tags:
+              - {key: 'length', value: 'not null'}
+            startTime: nq 0
+            endTime: nq 0
+            componentId: 55
+            componentName: ''
+            isError: false
+            spanType: Local
+            peer: ''
+            peerId: 0
+          - operationName: /gson-scenario/case/gson-scenario
+            operationId: 0
+            spanId: 0
+            spanLayer: Http
+            startTime: nq 0
+            endTime: nq 0
+            componentId: 1
+            componentName: ''
+            isError: false
+            spanType: Entry
+            peer: ''
+            peerId: 0
+            tags:
+              - {key: url, value: 'http://localhost:8080/gson-scenario/case/gson-scenario'}
+              - {key: http.method, value: GET}

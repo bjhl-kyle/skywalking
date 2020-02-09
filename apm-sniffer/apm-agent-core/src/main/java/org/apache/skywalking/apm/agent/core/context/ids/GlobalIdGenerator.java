@@ -26,7 +26,7 @@ public final class GlobalIdGenerator {
     private static final ThreadLocal<IDContext> THREAD_ID_SEQUENCE = new ThreadLocal<IDContext>() {
         @Override
         protected IDContext initialValue() {
-            return new IDContext(System.currentTimeMillis(), (short)0);
+            return new IDContext(System.currentTimeMillis(), (short) 0);
         }
     };
 
@@ -35,16 +35,15 @@ public final class GlobalIdGenerator {
 
     /**
      * Generate a new id, combined by three long numbers.
-     *
+     * <p>
      * The first one represents application instance id. (most likely just an integer value, would be helpful in
      * protobuf)
-     *
+     * <p>
      * The second one represents thread id. (most likely just an integer value, would be helpful in protobuf)
-     *
-     * The third one also has two parts,
-     * 1) a timestamp, measured in milliseconds
-     * 2) a seq, in current thread, between 0(included) and 9999(included)
-     *
+     * <p>
+     * The third one also has two parts, 1) a timestamp, measured in milliseconds 2) a seq, in current thread, between
+     * 0(included) and 9999(included)
+     * <p>
      * Notice, a long costs 8 bytes, three longs cost 24 bytes. And at the same time, a char costs 2 bytes. So
      * sky-walking's old global and segment id like this: "S.1490097253214.-866187727.57515.1.1" which costs at least 72
      * bytes.
@@ -57,11 +56,8 @@ public final class GlobalIdGenerator {
         }
         IDContext context = THREAD_ID_SEQUENCE.get();
 
-        return new ID(
-            RemoteDownstreamConfig.Agent.SERVICE_INSTANCE_ID,
-            Thread.currentThread().getId(),
-            context.nextSeq()
-        );
+        return new ID(RemoteDownstreamConfig.Agent.SERVICE_INSTANCE_ID, Thread.currentThread()
+                                                                              .getId(), context.nextSeq());
     }
 
     private static class IDContext {

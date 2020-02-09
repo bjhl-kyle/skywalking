@@ -18,12 +18,11 @@
 
 package org.apache.skywalking.oap.server.core.profile;
 
+import java.io.InputStream;
 import org.apache.skywalking.oap.server.core.profile.bean.ProfileStackAnalyze;
 import org.apache.skywalking.oap.server.core.profile.bean.ProfileStackAnalyzeHolder;
 import org.junit.Test;
 import org.yaml.snakeyaml.Yaml;
-
-import java.io.InputStream;
 
 public class ProfileAnalyzerTest {
 

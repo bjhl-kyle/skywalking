@@ -17,6 +17,7 @@
 
 package org.apache.skywalking.apm.testcase.spring.async;
 
+import java.io.IOException;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.ResponseHandler;
 import org.apache.http.client.methods.HttpGet;
@@ -25,11 +26,6 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 import org.springframework.stereotype.Component;
 
-import java.io.IOException;
-
-/**
- * @author zhaoyuguang
- */
 @Component
 public class HttpBean {
 

@@ -16,7 +16,6 @@
 
 syntax = "proto3";
 
-
 // The `metric` template is designed to let you describe runtime metric to dispatch to
 // monitoring backends.
 //
@@ -67,7 +66,7 @@ option (gogoproto.gostring_all) = false;
 // HandleMetricService is implemented by backends that wants to handle request-time 'metric' instances.
 service HandleMetricService {
     // HandleMetric is called by Mixer at request-time to deliver 'metric' instances to the backend.
-    rpc HandleMetric(HandleMetricRequest) returns (istio.mixer.adapter.model.v1beta1.ReportResult);
+    rpc HandleMetric (HandleMetricRequest) returns (istio.mixer.adapter.model.v1beta1.ReportResult);
 
 }
 

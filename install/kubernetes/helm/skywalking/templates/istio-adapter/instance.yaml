@@ -15,7 +15,7 @@
 # limitations under the License.
 
 # instance for template metric
-{{- if .Values.oap.istio.adapter.enabled }}
+  {{- if .Values.oap.istio.adapter.enabled }}
 apiVersion: "config.istio.io/v1alpha2"
 kind: instance
 metadata:
@@ -39,4 +39,4 @@ spec:
       responseCode: response.code | 200
       reporter: conditional((context.reporter.kind | "inbound") == "outbound", "source", "destination")
       apiProtocol: api.protocol | ""
-{{- end }}
+  {{- end }}

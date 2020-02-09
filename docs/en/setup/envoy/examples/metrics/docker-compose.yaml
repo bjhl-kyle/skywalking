@@ -20,15 +20,15 @@ services:
     image: envoyproxy/envoy-alpine:latest
     command: /usr/local/bin/envoy -c /etc/envoy.yaml --service-cluster envoy-proxy
     ports:
-    - 10000:10000
+      - 10000:10000
     depends_on:
-    - skywalking
+      - skywalking
     volumes:
-    - ./envoy.yaml:/etc/envoy.yaml
+      - ./envoy.yaml:/etc/envoy.yaml
 
   skywalking:
     image: apache/skywalking-oap-server:latest
     volumes:
-    - ./log4j2.xml:/skywalking/config/log4j2.xml
+      - ./log4j2.xml:/skywalking/config/log4j2.xml
     expose:
-    - "11800"
+      - "11800"

@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-syntax="proto3";
+syntax = "proto3";
 
 package jaeger.api_v2;
 
@@ -40,121 +40,73 @@ option (gogoproto.sizer_all) = true;
 option (gogoproto.goproto_registration) = true;
 
 enum ValueType {
-  STRING  = 0;
-  BOOL    = 1;
-  INT64   = 2;
-  FLOAT64 = 3;
-  BINARY  = 4;
+    STRING = 0;
+    BOOL = 1;
+    INT64 = 2;
+    FLOAT64 = 3;
+    BINARY = 4;
 };
 
 message KeyValue {
-  option (gogoproto.equal) = true;
-  option (gogoproto.compare) = true;
+    option (gogoproto.equal) = true;
+    option (gogoproto.compare) = true;
 
-  string    key      = 1;
-  ValueType v_type    = 2;
-  string    v_str     = 3;
-  bool      v_bool    = 4;
-  int64     v_int64   = 5;
-  double    v_float64 = 6;
-  bytes     v_binary  = 7;
+    string key = 1;
+    ValueType v_type = 2;
+    string v_str = 3;
+    bool v_bool = 4;
+    int64 v_int64 = 5;
+    double v_float64 = 6;
+    bytes v_binary = 7;
 }
 
 message Log {
-  google.protobuf.Timestamp timestamp = 1 [
-    (gogoproto.stdtime) = true,
-    (gogoproto.nullable) = false
-  ];
-  repeated KeyValue fields = 2 [
-    (gogoproto.nullable) = false
-  ];
+    google.protobuf.Timestamp timestamp = 1 [(gogoproto.stdtime) = true, (gogoproto.nullable) = false];
+    repeated KeyValue fields = 2 [(gogoproto.nullable) = false];
 }
 
 enum SpanRefType {
-  CHILD_OF = 0;
-  FOLLOWS_FROM = 1;
+    CHILD_OF = 0;
+    FOLLOWS_FROM = 1;
 };
 
 message SpanRef {
-  bytes trace_id = 1 [
-    (gogoproto.nullable) = false,
-    (gogoproto.customtype) = "TraceID",
-    (gogoproto.customname) = "TraceID"
-  ];
-  bytes span_id = 2 [
-    (gogoproto.nullable) = false,
-    (gogoproto.customtype) = "SpanID",
-    (gogoproto.customname) = "SpanID"
-  ];
-  SpanRefType ref_type = 3;
+    bytes trace_id = 1 [(gogoproto.nullable) = false, (gogoproto.customtype) = "TraceID", (gogoproto.customname) = "TraceID"];
+    bytes span_id = 2 [(gogoproto.nullable) = false, (gogoproto.customtype) = "SpanID", (gogoproto.customname) = "SpanID"];
+    SpanRefType ref_type = 3;
 }
 
 message Process {
-  string service_name = 1;
-  repeated KeyValue tags = 2 [
-    (gogoproto.nullable) = false
-  ];
+    string service_name = 1;
+    repeated KeyValue tags = 2 [(gogoproto.nullable) = false];
 }
 
 message Span {
-  bytes trace_id = 1 [
-    (gogoproto.nullable) = false,
-    (gogoproto.customtype) = "TraceID",
-    (gogoproto.customname) = "TraceID"
-  ];
-  bytes span_id = 2 [
-    (gogoproto.nullable) = false,
-    (gogoproto.customtype) = "SpanID",
-    (gogoproto.customname) = "SpanID"
-  ];
-  string operation_name = 3;
-  repeated SpanRef references = 4 [
-    (gogoproto.nullable) = false
-  ];
-  uint32 flags = 5 [
-    (gogoproto.nullable) = false,
-    (gogoproto.customtype) = "Flags"
-  ];
-  google.protobuf.Timestamp start_time = 6 [
-    (gogoproto.stdtime) = true,
-    (gogoproto.nullable) = false
-  ];
-  google.protobuf.Duration duration = 7 [
-    (gogoproto.stdduration) = true,
-    (gogoproto.nullable) = false
-  ];
-  repeated KeyValue tags = 8 [
-    (gogoproto.nullable) = false
-  ];
-  repeated Log logs = 9 [
-    (gogoproto.nullable) = false
-  ];
-  Process process = 10;
-  string process_id = 11 [
-    (gogoproto.customname) = "ProcessID"
-  ];
-  repeated string warnings = 12;
+    bytes trace_id = 1 [(gogoproto.nullable) = false, (gogoproto.customtype) = "TraceID", (gogoproto.customname) = "TraceID"];
+    bytes span_id = 2 [(gogoproto.nullable) = false, (gogoproto.customtype) = "SpanID", (gogoproto.customname) = "SpanID"];
+    string operation_name = 3;
+    repeated SpanRef references = 4 [(gogoproto.nullable) = false];
+    uint32 flags = 5 [(gogoproto.nullable) = false, (gogoproto.customtype) = "Flags"];
+    google.protobuf.Timestamp start_time = 6 [(gogoproto.stdtime) = true, (gogoproto.nullable) = false];
+    google.protobuf.Duration duration = 7 [(gogoproto.stdduration) = true, (gogoproto.nullable) = false];
+    repeated KeyValue tags = 8 [(gogoproto.nullable) = false];
+    repeated Log logs = 9 [(gogoproto.nullable) = false];
+    Process process = 10;
+    string process_id = 11 [(gogoproto.customname) = "ProcessID"];
+    repeated string warnings = 12;
 }
 
 message Trace {
-  message ProcessMapping {
-      string process_id = 1 [
-        (gogoproto.customname) = "ProcessID"
-      ];
-      Process process = 2 [
-        (gogoproto.nullable) = false
-      ];
-  }
-  repeated Span spans = 1;
-  repeated ProcessMapping process_map = 2 [
-    (gogoproto.nullable) = false
-  ];
-  repeated string warnings = 3;
+    message ProcessMapping {
+        string process_id = 1 [(gogoproto.customname) = "ProcessID"];
+        Process process = 2 [(gogoproto.nullable) = false];
+    }
+    repeated Span spans = 1;
+    repeated ProcessMapping process_map = 2 [(gogoproto.nullable) = false];
+    repeated string warnings = 3;
 }
 
 message Batch {
     repeated Span spans = 1;
-    Process process = 2 [
-      (gogoproto.nullable) = true
-    ];
+    Process process = 2 [(gogoproto.nullable) = true];
 }

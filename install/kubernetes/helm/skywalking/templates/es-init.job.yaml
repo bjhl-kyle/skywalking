@@ -37,17 +37,17 @@ spec:
       initContainers:
       {{- include "skywalking.containers.wait-for-es" . | nindent 6 }}
       containers:
-      - name: {{ .Values.oap.name }}
-        image: "{{ .Values.oap.image.repository }}:{{ .Chart.AppVersion }}"
-        imagePullPolicy: {{ .Values.oap.image.pullPolicy }}
-{{- if .Values.oap.resources }}
-        resources:
-{{ toYaml .Values.oap.resources | indent 10 }}
-{{- end }}
-        env:
-        - name: JAVA_OPTS
-          value: "{{ .Values.oap.javaOpts }} -Dmode=init"
-        - name: SW_STORAGE
-          value: elasticsearch
-        - name: SW_STORAGE_ES_CLUSTER_NODES
-          value: "{{ include "call-nested" (list . "elasticsearch" "elasticsearch.fullname") }}:9200"
+        - name: {{ .Values.oap.name }}
+          image: "{{ .Values.oap.image.repository }}:{{ .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.oap.image.pullPolicy }}
+  {{- if .Values.oap.resources }}
+resources:
+  {{ toYaml .Values.oap.resources | indent 10 }}
+  {{- end }}
+env:
+  - name: JAVA_OPTS
+    value: "{{ .Values.oap.javaOpts }} -Dmode=init"
+  - name: SW_STORAGE
+    value: elasticsearch
+  - name: SW_STORAGE_ES_CLUSTER_NODES
+    value: "{{ include "call-nested" (list . "elasticsearch" "elasticsearch.fullname") }}:9200"

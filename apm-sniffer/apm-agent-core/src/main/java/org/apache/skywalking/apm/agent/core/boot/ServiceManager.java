@@ -30,10 +30,7 @@ import org.apache.skywalking.apm.agent.core.logging.api.LogManager;
 import org.apache.skywalking.apm.agent.core.plugin.loader.AgentClassLoader;
 
 /**
- * The <code>ServiceManager</code> bases on {@link ServiceLoader},
- * load all {@link BootService} implementations.
- *
- * @author wusheng
+ * The <code>ServiceManager</code> bases on {@link ServiceLoader}, load all {@link BootService} implementations.
  */
 public enum ServiceManager {
     INSTANCE;
@@ -86,12 +83,13 @@ public enum ServiceManager {
                 } else {
                     Class<? extends BootService> targetService = overrideImplementor.value();
                     if (bootedServices.containsKey(targetService)) {
-                        boolean presentDefault = bootedServices.get(targetService).getClass().isAnnotationPresent(DefaultImplementor.class);
+                        boolean presentDefault = bootedServices.get(targetService)
+                                                               .getClass()
+                                                               .isAnnotationPresent(DefaultImplementor.class);
                         if (presentDefault) {
                             bootedServices.put(targetService, bootService);
                         } else {
-                            throw new ServiceConflictException("Service " + bootServiceClass + " overrides conflict, " +
-                                "exist more than one service want to override :" + targetService);
+                            throw new ServiceConflictException("Service " + bootServiceClass + " overrides conflict, " + "exist more than one service want to override :" + targetService);
                         }
                     } else {
                         bootedServices.put(targetService, bootService);
@@ -137,15 +135,16 @@ public enum ServiceManager {
      * Find a {@link BootService} implementation, which is already started.
      *
      * @param serviceClass class name.
-     * @param <T> {@link BootService} implementation class.
+     * @param <T>          {@link BootService} implementation class.
      * @return {@link BootService} instance
      */
     public <T extends BootService> T findService(Class<T> serviceClass) {
-        return (T)bootedServices.get(serviceClass);
+        return (T) bootedServices.get(serviceClass);
     }
 
     void load(List<BootService> allServices) {
-        Iterator<BootService> iterator = ServiceLoader.load(BootService.class, AgentClassLoader.getDefault()).iterator();
+        Iterator<BootService> iterator = ServiceLoader.load(BootService.class, AgentClassLoader.getDefault())
+                                                      .iterator();
         while (iterator.hasNext()) {
             allServices.add(iterator.next());
         }

@@ -20,11 +20,11 @@ healthCheck: http://localhost:8080/activemq-scenario/case/healthCheck
 startScript: ./bin/startup.sh
 framework: activemq-scenario
 environment:
-- activemq.server=tcp://activemq-server:61616
+  - activemq.server=tcp://activemq-server:61616
 dependencies:
   activemq-server:
     image: rmohr/activemq:${CASE_SERVER_IMAGE_VERSION}
     hostname: activemq-server
     expose:
-    - 8161
-    - 61616
+      - 8161
+      - 61616

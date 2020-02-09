@@ -15,13 +15,8 @@
  * limitations under the License.
  *
  */
-package org.apache.skywalking.oap.server.core.profile.bean;
 
-import lombok.Data;
-import org.apache.skywalking.oap.server.core.query.entity.ProfileStackElement;
-import org.apache.skywalking.oap.server.core.query.entity.ProfileStackTree;
-import org.apache.skywalking.oap.server.library.util.CollectionUtils;
-import org.junit.Assert;
+package org.apache.skywalking.oap.server.core.profile.bean;
 
 import java.util.Collections;
 import java.util.Comparator;
@@ -29,8 +24,13 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+import lombok.Data;
+import org.apache.skywalking.oap.server.core.query.entity.ProfileStackElement;
+import org.apache.skywalking.oap.server.core.query.entity.ProfileStackTree;
+import org.apache.skywalking.oap.server.library.util.CollectionUtils;
+import org.junit.Assert;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 @Data
 public class ProfileStackElementMatcher {

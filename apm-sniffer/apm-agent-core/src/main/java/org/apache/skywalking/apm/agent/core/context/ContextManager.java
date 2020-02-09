@@ -18,11 +18,14 @@
 
 package org.apache.skywalking.apm.agent.core.context;
 
-import org.apache.skywalking.apm.agent.core.boot.*;
+import org.apache.skywalking.apm.agent.core.boot.BootService;
+import org.apache.skywalking.apm.agent.core.boot.ServiceManager;
 import org.apache.skywalking.apm.agent.core.conf.RemoteDownstreamConfig;
-import org.apache.skywalking.apm.agent.core.context.trace.*;
+import org.apache.skywalking.apm.agent.core.context.trace.AbstractSpan;
+import org.apache.skywalking.apm.agent.core.context.trace.TraceSegment;
 import org.apache.skywalking.apm.agent.core.dictionary.DictionaryUtil;
-import org.apache.skywalking.apm.agent.core.logging.api.*;
+import org.apache.skywalking.apm.agent.core.logging.api.ILog;
+import org.apache.skywalking.apm.agent.core.logging.api.LogManager;
 import org.apache.skywalking.apm.agent.core.sampling.SamplingService;
 import org.apache.skywalking.apm.util.StringUtil;
 
@@ -35,8 +38,6 @@ import static org.apache.skywalking.apm.agent.core.conf.Config.Agent.OPERATION_N
  * https://github.com/opentracing/specification/blob/master/specification.md#references-between-spans
  *
  * <p> Also, {@link ContextManager} delegates to all {@link AbstractTracerContext}'s major methods.
- *
- * @author wusheng
  */
 public class ContextManager implements BootService {
     private static final ILog logger = LogManager.getLogger(ContextManager.class);
@@ -53,9 +54,8 @@ public class ContextManager implements BootService {
                 }
                 context = new IgnoredTracerContext();
             } else {
-                if (RemoteDownstreamConfig.Agent.SERVICE_ID != DictionaryUtil.nullValue()
-                    && RemoteDownstreamConfig.Agent.SERVICE_INSTANCE_ID != DictionaryUtil.nullValue()
-                ) {
+                if (RemoteDownstreamConfig.Agent.SERVICE_ID != DictionaryUtil.nullValue() && RemoteDownstreamConfig.Agent.SERVICE_INSTANCE_ID != DictionaryUtil
+                    .nullValue()) {
                     if (EXTEND_SERVICE == null) {
                         EXTEND_SERVICE = ServiceManager.INSTANCE.findService(ContextManagerExtendService.class);
                     }
@@ -165,21 +165,21 @@ public class ContextManager implements BootService {
     }
 
     /**
-     * If not sure has the active span, use this method, will be cause NPE when has no active span,
-     * use ContextManager::isActive method to determine whether there has the active span.
+     * If not sure has the active span, use this method, will be cause NPE when has no active span, use
+     * ContextManager::isActive method to determine whether there has the active span.
      */
     public static AbstractSpan activeSpan() {
         return get().activeSpan();
     }
 
     /**
-    * Recommend use ContextManager::stopSpan(AbstractSpan span), because in that way, 
-    * the TracingContext core could verify this span is the active one, in order to avoid stop unexpected span.
-    * If the current span is hard to get or only could get by low-performance way, this stop way is still acceptable.
-    */
+     * Recommend use ContextManager::stopSpan(AbstractSpan span), because in that way, the TracingContext core could
+     * verify this span is the active one, in order to avoid stop unexpected span. If the current span is hard to get or
+     * only could get by low-performance way, this stop way is still acceptable.
+     */
     public static void stopSpan() {
         final AbstractTracerContext context = get();
-        stopSpan(context.activeSpan(),context);
+        stopSpan(context.activeSpan(), context);
     }
 
     public static void stopSpan(AbstractSpan span) {
@@ -207,7 +207,8 @@ public class ContextManager implements BootService {
 
     }
 
-    @Override public void shutdown() throws Throwable {
+    @Override
+    public void shutdown() throws Throwable {
 
     }
 

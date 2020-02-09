@@ -15,14 +15,14 @@
  * limitations under the License.
  *
  */
+
 package org.apache.skywalking.oap.server.core.profile.bean;
 
+import java.util.List;
 import lombok.Data;
 import org.apache.skywalking.oap.server.core.profile.analyze.ProfileAnalyzer;
 import org.apache.skywalking.oap.server.core.profile.analyze.ProfileStack;
 import org.apache.skywalking.oap.server.core.query.entity.ProfileAnalyzation;
-
-import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 

@@ -26,9 +26,6 @@ import io.grpc.netty.NettyChannelBuilder;
 import java.util.LinkedList;
 import java.util.List;
 
-/**
- * @author zhangxin
- */
 public class GRPCChannel {
     /**
      * origin channel

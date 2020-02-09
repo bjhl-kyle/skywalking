@@ -25,12 +25,10 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.apache.skywalking.apm.agent.core.conf.RuntimeContextConfiguration;
 
 /**
- * RuntimeContext is alive during the tracing context.
- * It will not be serialized to the collector, and always stays in the same context only.
- *
+ * RuntimeContext is alive during the tracing context. It will not be serialized to the collector, and always stays in
+ * the same context only.
+ * <p>
  * In most cases, it means it only stays in a single thread for context propagation.
- *
- * @author wusheng, ascrutae
  */
 public class RuntimeContext {
     private final ThreadLocal<RuntimeContext> contextThreadLocal;
@@ -49,7 +47,7 @@ public class RuntimeContext {
     }
 
     public <T> T get(Object key, Class<T> type) {
-        return (T)context.get(key);
+        return (T) context.get(key);
     }
 
     public void remove(Object key) {

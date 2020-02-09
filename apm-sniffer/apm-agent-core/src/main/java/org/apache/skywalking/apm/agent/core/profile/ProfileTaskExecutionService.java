@@ -18,6 +18,14 @@
 
 package org.apache.skywalking.apm.agent.core.profile;
 
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicReference;
 import org.apache.skywalking.apm.agent.core.boot.BootService;
 import org.apache.skywalking.apm.agent.core.boot.DefaultImplementor;
 import org.apache.skywalking.apm.agent.core.boot.DefaultNamedThreadFactory;
@@ -30,16 +38,8 @@ import org.apache.skywalking.apm.agent.core.logging.api.LogManager;
 import org.apache.skywalking.apm.network.constants.ProfileConstants;
 import org.apache.skywalking.apm.util.StringUtil;
 
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.concurrent.*;
-import java.util.concurrent.atomic.AtomicReference;
-
 /**
  * Profile task executor, use {@link #addProfileTask(ProfileTask)} to add a new profile task.
- *
- * @author MrPro
  */
 @DefaultImplementor
 public class ProfileTaskExecutionService implements BootService, TracingThreadListener {
@@ -154,7 +154,8 @@ public class ProfileTaskExecutionService implements BootService, TracingThreadLi
         profileTaskList.remove(needToStop.getTask());
 
         // notify profiling task has finished
-        ServiceManager.INSTANCE.findService(ProfileTaskChannelService.class).notifyProfileTaskFinish(needToStop.getTask());
+        ServiceManager.INSTANCE.findService(ProfileTaskChannelService.class)
+                               .notifyProfileTaskFinish(needToStop.getTask());
     }
 
     @Override
@@ -226,7 +227,8 @@ public class ProfileTaskExecutionService implements BootService, TracingThreadLi
 
             // if the end time of the task to be added is during the execution of any data, means is a error data
             if (taskProcessFinishTime >= profileTask.getStartTime() && taskProcessFinishTime <= calcProfileTaskFinishTime(profileTask)) {
-                return new CheckResult(false, "there already have processing task in time range, could not add a new task again. processing task monitor endpoint name: " + profileTask.getFistSpanOPName());
+                return new CheckResult(false, "there already have processing task in time range, could not add a new task again. processing task monitor endpoint name: " + profileTask
+                    .getFistSpanOPName());
             }
         }
 

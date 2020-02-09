@@ -50,8 +50,6 @@ import static net.bytebuddy.matcher.ElementMatchers.not;
 
 /**
  * The main entrance of sky-walking agent, based on javaagent mechanism.
- *
- * @author wusheng
  */
 public class SkyWalkingAgent {
     private static final ILog logger = LogManager.getLogger(SkyWalkingAgent.class);
@@ -74,20 +72,17 @@ public class SkyWalkingAgent {
             return;
         }
 
-        final ByteBuddy byteBuddy = new ByteBuddy()
-            .with(TypeValidation.of(Config.Agent.IS_OPEN_DEBUGGING_CLASS));
+        final ByteBuddy byteBuddy = new ByteBuddy().with(TypeValidation.of(Config.Agent.IS_OPEN_DEBUGGING_CLASS));
 
-        AgentBuilder agentBuilder = new AgentBuilder.Default(byteBuddy)
-            .ignore(
-                nameStartsWith("net.bytebuddy.")
-                    .or(nameStartsWith("org.slf4j."))
-                    .or(nameStartsWith("org.groovy."))
-                    .or(nameContains("javassist"))
-                    .or(nameContains(".asm."))
-                    .or(nameContains(".reflectasm."))
-                    .or(nameStartsWith("sun.reflect"))
-                    .or(allSkyWalkingAgentExcludeToolkit())
-                    .or(ElementMatchers.isSynthetic()));
+        AgentBuilder agentBuilder = new AgentBuilder.Default(byteBuddy).ignore(nameStartsWith("net.bytebuddy.").or(nameStartsWith("org.slf4j."))
+                                                                                                               .or(nameStartsWith("org.groovy."))
+                                                                                                               .or(nameContains("javassist"))
+                                                                                                               .or(nameContains(".asm."))
+                                                                                                               .or(nameContains(".reflectasm."))
+                                                                                                               .or(nameStartsWith("sun.reflect"))
+                                                                                                               .or(allSkyWalkingAgentExcludeToolkit())
+                                                                                                               .or(ElementMatchers
+                                                                                                                   .isSynthetic()));
 
         JDK9ModuleExporter.EdgeClasses edgeClasses = new JDK9ModuleExporter.EdgeClasses();
         try {
@@ -104,12 +99,11 @@ public class SkyWalkingAgent {
             return;
         }
 
-        agentBuilder
-            .type(pluginFinder.buildMatch())
-            .transform(new Transformer(pluginFinder))
-            .with(AgentBuilder.RedefinitionStrategy.RETRANSFORMATION)
-            .with(new Listener())
-            .installOn(instrumentation);
+        agentBuilder.type(pluginFinder.buildMatch())
+                    .transform(new Transformer(pluginFinder))
+                    .with(AgentBuilder.RedefinitionStrategy.RETRANSFORMATION)
+                    .with(new Listener())
+                    .installOn(instrumentation);
 
         try {
             ServiceManager.INSTANCE.boot();
@@ -117,7 +111,8 @@ public class SkyWalkingAgent {
             logger.error(e, "Skywalking agent boot failure.");
         }
 
-        Runtime.getRuntime().addShutdownHook(new Thread(ServiceManager.INSTANCE::shutdown, "skywalking service shutdown thread"));
+        Runtime.getRuntime()
+               .addShutdownHook(new Thread(ServiceManager.INSTANCE::shutdown, "skywalking service shutdown thread"));
     }
 
     private static class Transformer implements AgentBuilder.Transformer {

@@ -16,7 +16,6 @@
  *
  */
 
-
 package org.apache.skywalking.apm.agent.core.dictionary;
 
 import io.netty.util.internal.ConcurrentSet;
@@ -32,8 +31,6 @@ import static org.apache.skywalking.apm.agent.core.conf.Config.Dictionary.SERVIC
 
 /**
  * Map of network address id to network literal address, which is from the collector side.
- *
- * @author wusheng
  */
 public enum NetworkAddressDictionary {
     INSTANCE;
@@ -52,11 +49,12 @@ public enum NetworkAddressDictionary {
         }
     }
 
-    public void syncRemoteDictionary(
-        RegisterGrpc.RegisterBlockingStub networkAddressRegisterServiceBlockingStub) {
+    public void syncRemoteDictionary(RegisterGrpc.RegisterBlockingStub networkAddressRegisterServiceBlockingStub) {
         if (unRegisterServices.size() > 0) {
-            NetAddressMapping networkAddressMappings = networkAddressRegisterServiceBlockingStub.doNetworkAddressRegister(
-                NetAddresses.newBuilder().addAllAddresses(unRegisterServices).build());
+            NetAddressMapping networkAddressMappings = networkAddressRegisterServiceBlockingStub.doNetworkAddressRegister(NetAddresses
+                .newBuilder()
+                .addAllAddresses(unRegisterServices)
+                .build());
             if (networkAddressMappings.getAddressIdsCount() > 0) {
                 for (KeyIntValuePair keyWithIntegerValue : networkAddressMappings.getAddressIdsList()) {
                     unRegisterServices.remove(keyWithIntegerValue.getKey());

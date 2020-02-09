@@ -19,17 +19,20 @@
 package org.apache.skywalking.apm.agent.core.dictionary;
 
 import io.netty.util.internal.ConcurrentSet;
-import java.util.*;
+import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
-import org.apache.skywalking.apm.agent.core.logging.api.*;
+import org.apache.skywalking.apm.agent.core.logging.api.ILog;
+import org.apache.skywalking.apm.agent.core.logging.api.LogManager;
 import org.apache.skywalking.apm.network.common.DetectPoint;
-import org.apache.skywalking.apm.network.register.v2.*;
+import org.apache.skywalking.apm.network.register.v2.Endpoint;
+import org.apache.skywalking.apm.network.register.v2.EndpointMapping;
+import org.apache.skywalking.apm.network.register.v2.EndpointMappingElement;
+import org.apache.skywalking.apm.network.register.v2.Endpoints;
+import org.apache.skywalking.apm.network.register.v2.RegisterGrpc;
 
 import static org.apache.skywalking.apm.agent.core.conf.Config.Dictionary.ENDPOINT_NAME_BUFFER_SIZE;
 
-/**
- * @author wusheng
- */
 public enum EndpointNameDictionary {
     INSTANCE;
     private static final ILog logger = LogManager.getLogger(EndpointNameDictionary.class);
@@ -45,8 +48,7 @@ public enum EndpointNameDictionary {
         return find0(serviceId, endpointName, false);
     }
 
-    private PossibleFound find0(int serviceId, String endpointName,
-        boolean registerWhenNotFound) {
+    private PossibleFound find0(int serviceId, String endpointName, boolean registerWhenNotFound) {
         if (endpointName == null || endpointName.length() == 0) {
             return new NotFound();
         }
@@ -55,32 +57,29 @@ public enum EndpointNameDictionary {
         if (operationId != null) {
             return new Found(operationId);
         } else {
-            if (registerWhenNotFound &&
-                endpointDictionary.size() + unRegisterEndpoints.size() < ENDPOINT_NAME_BUFFER_SIZE) {
+            if (registerWhenNotFound && endpointDictionary.size() + unRegisterEndpoints.size() < ENDPOINT_NAME_BUFFER_SIZE) {
                 unRegisterEndpoints.add(key);
             }
             return new NotFound();
         }
     }
 
-    public void syncRemoteDictionary(
-        RegisterGrpc.RegisterBlockingStub serviceNameDiscoveryServiceBlockingStub) {
+    public void syncRemoteDictionary(RegisterGrpc.RegisterBlockingStub serviceNameDiscoveryServiceBlockingStub) {
         if (unRegisterEndpoints.size() > 0) {
             Endpoints.Builder builder = Endpoints.newBuilder();
             for (OperationNameKey operationNameKey : unRegisterEndpoints) {
                 Endpoint endpoint = Endpoint.newBuilder()
-                    .setServiceId(operationNameKey.getServiceId())
-                    .setEndpointName(operationNameKey.getEndpointName())
-                    .setFrom(DetectPoint.server)
-                    .build();
+                                            .setServiceId(operationNameKey.getServiceId())
+                                            .setEndpointName(operationNameKey.getEndpointName())
+                                            .setFrom(DetectPoint.server)
+                                            .build();
                 builder.addEndpoints(endpoint);
             }
-            EndpointMapping serviceNameMappingCollection = serviceNameDiscoveryServiceBlockingStub.doEndpointRegister(builder.build());
+            EndpointMapping serviceNameMappingCollection = serviceNameDiscoveryServiceBlockingStub.doEndpointRegister(builder
+                .build());
             if (serviceNameMappingCollection.getElementsCount() > 0) {
                 for (EndpointMappingElement element : serviceNameMappingCollection.getElementsList()) {
-                    OperationNameKey key = new OperationNameKey(
-                        element.getServiceId(),
-                        element.getEndpointName());
+                    OperationNameKey key = new OperationNameKey(element.getServiceId(), element.getEndpointName());
                     unRegisterEndpoints.remove(key);
                     endpointDictionary.put(key, element.getEndpointId());
                 }
@@ -109,13 +108,14 @@ public enum EndpointNameDictionary {
             return endpointName;
         }
 
-        @Override public boolean equals(Object o) {
+        @Override
+        public boolean equals(Object o) {
             if (this == o)
                 return true;
             if (o == null || getClass() != o.getClass())
                 return false;
 
-            OperationNameKey key = (OperationNameKey)o;
+            OperationNameKey key = (OperationNameKey) o;
 
             boolean isServiceEndpointMatch = false;
             if (serviceId == key.serviceId && endpointName.equals(key.endpointName)) {
@@ -124,18 +124,16 @@ public enum EndpointNameDictionary {
             return isServiceEndpointMatch;
         }
 
-        @Override public int hashCode() {
+        @Override
+        public int hashCode() {
             int result = serviceId;
             result = 31 * result + endpointName.hashCode();
             return result;
         }
 
-
-        @Override public String toString() {
-            return "OperationNameKey{" +
-                "serviceId=" + serviceId +
-                ", endpointName='" + endpointName + '\'' +
-                '}';
+        @Override
+        public String toString() {
+            return "OperationNameKey{" + "serviceId=" + serviceId + ", endpointName='" + endpointName + '\'' + '}';
         }
     }
 }

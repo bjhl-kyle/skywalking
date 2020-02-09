@@ -16,7 +16,6 @@
  *
  */
 
-
 package org.apache.skywalking.apm.agent.core.sampling;
 
 import java.util.concurrent.Executors;
@@ -39,8 +38,6 @@ import org.apache.skywalking.apm.util.RunnableWithExceptionProtection;
  * send all of them to collector, if SAMPLING is on.
  * <p>
  * By default, SAMPLING is on, and  {@link Config.Agent#SAMPLE_N_PER_3_SECS }
- *
- * @author wusheng
  */
 @DefaultImplementor
 public class SamplingService implements BootService {
@@ -67,15 +64,15 @@ public class SamplingService implements BootService {
         if (Config.Agent.SAMPLE_N_PER_3_SECS > 0) {
             on = true;
             this.resetSamplingFactor();
-            ScheduledExecutorService service = Executors
-                .newSingleThreadScheduledExecutor(new DefaultNamedThreadFactory("SamplingService"));
+            ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor(new DefaultNamedThreadFactory("SamplingService"));
             scheduledFuture = service.scheduleAtFixedRate(new RunnableWithExceptionProtection(new Runnable() {
                 @Override
                 public void run() {
                     resetSamplingFactor();
                 }
             }, new RunnableWithExceptionProtection.CallbackWhenException() {
-                @Override public void handle(Throwable t) {
+                @Override
+                public void handle(Throwable t) {
                     logger.error("unexpected exception.", t);
                 }
             }), 0, 3, TimeUnit.SECONDS);
@@ -112,10 +109,8 @@ public class SamplingService implements BootService {
     }
 
     /**
-     * Increase the sampling factor by force,
-     * to avoid sampling too many traces.
-     * If many distributed traces require sampled,
-     * the trace beginning at local, has less chance to be sampled.
+     * Increase the sampling factor by force, to avoid sampling too many traces. If many distributed traces require
+     * sampled, the trace beginning at local, has less chance to be sampled.
      */
     public void forceSampled() {
         if (on) {

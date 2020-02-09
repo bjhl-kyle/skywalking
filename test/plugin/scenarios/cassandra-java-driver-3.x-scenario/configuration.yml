@@ -20,11 +20,11 @@ healthCheck: http://localhost:8080/cassandra-java-driver-3.x-scenario/case/healt
 startScript: ./bin/startup.sh
 framework: cassandra-java-driver-3.x-scenario
 environment:
-- cassandra.host=cassandra-server
-- cassandra.port=9042
+  - cassandra.host=cassandra-server
+  - cassandra.port=9042
 dependencies:
   cassandra-server:
     image: cassandra:3.11.4
     hostname: cassandra-server
     expose:
-    - 9042
+      - 9042

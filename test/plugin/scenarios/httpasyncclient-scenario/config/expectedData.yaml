@@ -14,80 +14,80 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 registryItems:
-    applications:
+  applications:
     - {httpasyncclient-scenario: nq 0}
-    instances:
+  instances:
     - {httpasyncclient-scenario: 1}
-    operationNames:
+  operationNames:
     - httpasyncclient-scenario: [/httpasyncclient/case/httpasyncclient, /httpasyncclient/back]
 segmentItems:
-- applicationCode: httpasyncclient-scenario
-  segmentSize: ge 4
-  segments:
-  - segmentId: not null
-    spans:
-      - operationName: /httpasyncclient/case/httpasyncclient
-        operationId: 0
-        parentSpanId: -1
-        spanId: 0
-        spanLayer: Http
-        startTime: nq 0
-        endTime: nq 0
-        componentId: not null
-        componentName: ''
-        isError: false
-        spanType: Entry
-        peer: ''
-        peerId: 0
-        tags:
-        - {key: url, value: 'http://localhost:8080/httpasyncclient/case/httpasyncclient' }
-        - {key: http.method, value: GET }
-  - segmentId: not null
-    spans:
-      - operationName: /httpasyncclient/back
-        operationId: 0
-        parentSpanId: -1
-        spanId: 0
-        spanLayer: Http
-        startTime: nq 0
-        endTime: nq 0
-        componentId: not null
-        componentName: ''
-        isError: false
-        spanType: Entry
-        peer: ''
-        peerId: 0
-        tags:
-        - {key: url, value: 'http://127.0.0.1:8080/httpasyncclient/back' }
-        - {key: http.method, value: GET }
-  - segmentId: not null
-    spans:
-      - operationName: /httpasyncclient/back
-        operationId: 0
-        parentSpanId: 0
-        spanId: 1
-        spanLayer: Http
-        startTime: nq 0
-        endTime: nq 0
-        componentId: not null
-        componentName: ''
-        isError: false
-        spanType: Exit
-        peer: 127.0.0.1:8080
-        peerId: 0
-        tags:
-        - {key: url, value: 'http://127.0.0.1:8080/httpasyncclient/back' }
-        - {key: http.method, value: GET }
-      - operationName: httpasyncclient/local
-        operationId: 0
-        parentSpanId: -1
-        spanId: 0
-        spanLayer: not null
-        startTime: nq 0
-        endTime: nq 0
-        componentId: 0
-        componentName: ''
-        isError: false
-        spanType: Local
-        peer: ""
-        peerId: 0
+  - applicationCode: httpasyncclient-scenario
+    segmentSize: ge 4
+    segments:
+      - segmentId: not null
+        spans:
+          - operationName: /httpasyncclient/case/httpasyncclient
+            operationId: 0
+            parentSpanId: -1
+            spanId: 0
+            spanLayer: Http
+            startTime: nq 0
+            endTime: nq 0
+            componentId: not null
+            componentName: ''
+            isError: false
+            spanType: Entry
+            peer: ''
+            peerId: 0
+            tags:
+              - {key: url, value: 'http://localhost:8080/httpasyncclient/case/httpasyncclient' }
+              - {key: http.method, value: GET }
+      - segmentId: not null
+        spans:
+          - operationName: /httpasyncclient/back
+            operationId: 0
+            parentSpanId: -1
+            spanId: 0
+            spanLayer: Http
+            startTime: nq 0
+            endTime: nq 0
+            componentId: not null
+            componentName: ''
+            isError: false
+            spanType: Entry
+            peer: ''
+            peerId: 0
+            tags:
+              - {key: url, value: 'http://127.0.0.1:8080/httpasyncclient/back' }
+              - {key: http.method, value: GET }
+      - segmentId: not null
+        spans:
+          - operationName: /httpasyncclient/back
+            operationId: 0
+            parentSpanId: 0
+            spanId: 1
+            spanLayer: Http
+            startTime: nq 0
+            endTime: nq 0
+            componentId: not null
+            componentName: ''
+            isError: false
+            spanType: Exit
+            peer: 127.0.0.1:8080
+            peerId: 0
+            tags:
+              - {key: url, value: 'http://127.0.0.1:8080/httpasyncclient/back' }
+              - {key: http.method, value: GET }
+          - operationName: httpasyncclient/local
+            operationId: 0
+            parentSpanId: -1
+            spanId: 0
+            spanLayer: not null
+            startTime: nq 0
+            endTime: nq 0
+            componentId: 0
+            componentName: ''
+            isError: false
+            spanType: Local
+            peer: ""
+            peerId: 0

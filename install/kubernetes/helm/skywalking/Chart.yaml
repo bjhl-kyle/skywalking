@@ -21,12 +21,12 @@ appVersion: latest
 description: Apache SkyWalking APM System
 icon: https://raw.githubusercontent.com/apache/skywalking-kubernetes/master/logo/sw-logo-for-chart.jpg
 sources:
-- https://github.com/apache/skywalking-kubernetes
+  - https://github.com/apache/skywalking-kubernetes
 maintainers:
-- name: hanahmily
-  email: hanahmily@gmail.com
-- name: innerpeacez
-  email: innerpeace.zhai@gmail.com
+  - name: hanahmily
+    email: hanahmily@gmail.com
+  - name: innerpeacez
+    email: innerpeace.zhai@gmail.com
 
 dependencies:
   - name: elasticsearch

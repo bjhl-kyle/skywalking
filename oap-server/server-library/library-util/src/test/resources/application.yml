@@ -33,9 +33,9 @@ core:
     gRPCHost: grpc.skywalking.apache.org
     gRPCPort: ${GRPC_PORT:11800}
     downsampling:
-    - Hour
-    - Day
-    - Month
+      - Hour
+      - Day
+      - Month
     # Set a timeout on metrics data. After the timeout has expired, the metrics data will automatically be deleted.
     recordDataTTL: ${RECORD_DATA_TTL:90} # Unit is minute
     minuteMetricsDataTTL: ${MINUTE_METRIC_DATA_TTL:90} # Unit is minute

@@ -28,4 +28,4 @@ dependencies:
     image: deepdiver/docker-oracle-xe-11g
     hostname: oracle-server
     expose:
-    - "1521"
+      - "1521"

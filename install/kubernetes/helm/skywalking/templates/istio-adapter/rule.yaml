@@ -15,7 +15,7 @@
 # limitations under the License.
 
 # rule to dispatch to handler sw
-{{- if .Values.oap.istio.adapter.enabled }}
+  {{- if .Values.oap.istio.adapter.enabled }}
 apiVersion: "config.istio.io/v1alpha2"
 kind: rule
 metadata:
@@ -25,4 +25,4 @@ spec:
     - handler: skywalking-handler.istio-system
       instances:
         - skywalking-metric
-{{- end }}
+  {{- end }}

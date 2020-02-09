@@ -24,7 +24,7 @@ option java_package = "org.apache.skywalking.apm.network.servicemesh";
 import "common/common.proto";
 
 service ServiceMeshMetricService {
-    rpc collect(stream ServiceMeshMetric) returns (MeshProbeDownstream) {
+    rpc collect (stream ServiceMeshMetric) returns (MeshProbeDownstream) {
     }
 }
 
